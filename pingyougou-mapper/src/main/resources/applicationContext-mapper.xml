@@ -36,6 +36,12 @@ bean 的 id: 默认为接口的类名，首字母小写
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.pinyougou.mapper"/>
     </bean>
+
+    <!-- 配置通用Mapper集成Spring4 -->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.pinyougou.mapper"/>
+    </bean>
+
     <!-- 配置数据源事务管理器 (DataSourceTransactionManager) -->
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

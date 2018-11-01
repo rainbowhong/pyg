@@ -11,5 +11,12 @@
 
     <artifactId>pingyougou-pojo</artifactId>
 
+    <!-- 配置通用mapper -->
+    <dependencies>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
