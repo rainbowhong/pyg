@@ -1,5 +1,6 @@
 package com.pinyougou.service;
 
+import com.pinyougou.comm.pojo.PageResult;
 import com.pinyougou.pojo.Brand;
 import com.pinyougou.pojo.Brand;
 
@@ -32,5 +33,5 @@ public interface BrandService {
     List<Brand> findAll();
 
     /** 多条件分页查询 */
-    List<Brand> findByPage(Brand Brand, int page, int rows);
+    PageResult findByPage(Brand Brand, int page, int rows);
 }

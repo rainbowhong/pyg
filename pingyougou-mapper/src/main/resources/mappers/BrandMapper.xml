@@ -5,4 +5,16 @@
 
 <!--namespace  名称空间，表示当前的 xml 是哪一个接口的映射 -->
 <mapper namespace="com.pinyougou.mapper.BrandMapper">
+    <select id="findAll" resultType="Brand">
+        select * from tb_brand
+        <where>
+            <if test="name != null and name != '' ">
+                name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="firstChar != null and firstChar != '' ">
+                and first_char = #{firstChar}
+            </if>
+        </where>
+        order by id ASC
+    </select>
 </mapper>

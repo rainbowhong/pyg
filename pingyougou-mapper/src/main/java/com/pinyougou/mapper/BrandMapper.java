@@ -19,6 +19,5 @@ public interface BrandMapper extends Mapper<Brand> {
      *
      * @return
      */
-    @Select("select * from tb_brand order by id asc")
-    List<Brand> findAll();
+    List<Brand> findAll(Brand brand);
 }

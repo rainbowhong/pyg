@@ -1,16 +1,25 @@
 package com.pinyougou.pojo;
 
+import javax.persistence.*;
+
 /**
  * SpecificationOption 实体类
  * @date 2018-10-30 20:09:53
  * @version 1.0
  */
+@Table(name = "tb_specification_option")
 public class SpecificationOption implements java.io.Serializable{
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+	@Column(name = "option_name")
 	private String optionName;
+	@Column(name = "spec_id")
 	private Long specId;
+	@Column(name="orders")
 	private Integer orders;
 
 	/** setter and getter method */
