@@ -15,6 +15,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: rainbow
@@ -53,7 +54,7 @@ public class BrandServiceImpl implements BrandService {
         //创建条件对象
         Example.Criteria criteria = example.createCriteria();
         //添加in条件
-        criteria.andIn("id",Arrays.asList(ids));
+        criteria.andIn("id", Arrays.asList(ids));
         brandMapper.deleteByExample(example);
     }
 
@@ -90,6 +91,19 @@ public class BrandServiceImpl implements BrandService {
                         }
                     });
             return new PageResult(pageInfo.getTotal(), pageInfo.getList());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * 查询所有的品牌(id与name)
+     */
+    @Override
+    public List<Map<String, Object>> findAllByIdAndName() {
+        try {
+            return brandMapper.findAllByIdAndName();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

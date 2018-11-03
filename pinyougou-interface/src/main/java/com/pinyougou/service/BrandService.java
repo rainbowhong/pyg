@@ -6,6 +6,7 @@ import com.pinyougou.pojo.Brand;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: rainbow
@@ -14,24 +15,40 @@ import java.util.List;
  * Modified By:
  */
 public interface BrandService {
-    /** 添加方法 */
+    /**
+     * 添加方法
+     */
     void save(Brand Brand);
 
-    /** 修改方法 */
+    /**
+     * 修改方法
+     */
     void update(Brand Brand);
 
-    /** 根据主键id删除 */
+    /**
+     * 根据主键id删除
+     */
     void delete(Serializable id);
 
-    /** 批量删除 */
+    /**
+     * 批量删除
+     */
     void deleteAll(Serializable[] ids);
 
-    /** 根据主键id查询 */
+    /**
+     * 根据主键id查询
+     */
     Brand findOne(Serializable id);
 
-    /** 查询全部 */
+    /**
+     * 查询全部
+     */
     List<Brand> findAll();
 
-    /** 多条件分页查询 */
+    /**
+     * 多条件分页查询
+     */
     PageResult findByPage(Brand Brand, int page, int rows);
+
+    List<Map<String, Object>> findAllByIdAndName();
 }

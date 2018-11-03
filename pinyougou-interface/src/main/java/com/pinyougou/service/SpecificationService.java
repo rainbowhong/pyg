@@ -6,6 +6,8 @@ import com.pinyougou.pojo.SpecificationOption;
 
 import java.util.List;
 import java.io.Serializable;
+import java.util.Map;
+
 /**
  * SpecificationService 服务接口
  * @date 2018-10-31 22:28:22
@@ -36,4 +38,8 @@ public interface SpecificationService {
 
 	/** 根据规格主键查询规格选项 */
 	List<SpecificationOption> findSpecOption(Long id);
+
+
+	//查询规格id和name
+	List<Map<String,Object>> findAllByIdAndName();
 }

@@ -64,4 +64,7 @@ app.controller('spectificatoinController', function ($scope, $controller, baseSe
                 })
         }
     }
+
+
+
 });

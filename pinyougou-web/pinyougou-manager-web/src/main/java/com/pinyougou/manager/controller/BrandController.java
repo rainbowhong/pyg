@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: rainbow
@@ -80,5 +81,14 @@ public class BrandController {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    /**
+     * 查询所有的品牌
+     */
+    @GetMapping("/findBrandList")
+    public List<Map<String,Object>> findBrandList() {
+        return brandService.findAllByIdAndName();
     }
 }

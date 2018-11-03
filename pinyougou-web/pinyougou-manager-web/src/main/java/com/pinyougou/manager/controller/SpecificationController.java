@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: rainbow
@@ -80,5 +81,11 @@ public class SpecificationController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //查询规格
+    @GetMapping("findSpecList")
+    public List<Map<String,Object>> findSpecList() {
+        return specificationService.findAllByIdAndName();
     }
 }

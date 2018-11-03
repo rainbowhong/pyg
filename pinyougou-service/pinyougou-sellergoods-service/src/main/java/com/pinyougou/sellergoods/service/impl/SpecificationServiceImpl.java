@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: rainbow
@@ -115,6 +116,17 @@ public class SpecificationServiceImpl implements SpecificationService {
             SpecificationOption so = new SpecificationOption();
             so.setSpecId(id);
             return specificationOptionMapper.select(so);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //查询规格id和name
+    @Override
+    public List<Map<String, Object>> findAllByIdAndName() {
+        try {
+            return specificationMapper.findAllByIdAndName();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
