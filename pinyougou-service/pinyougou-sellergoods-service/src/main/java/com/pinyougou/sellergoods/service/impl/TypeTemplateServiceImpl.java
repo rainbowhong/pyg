@@ -10,8 +10,10 @@ import com.pinyougou.pojo.TypeTemplate;
 import com.pinyougou.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,12 +31,12 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Override
     public void save(TypeTemplate typeTemplate) {
-
+        typeTemplateMapper.insertSelective(typeTemplate);
     }
 
     @Override
     public void update(TypeTemplate typeTemplate) {
-
+        typeTemplateMapper.updateByPrimaryKeySelective(typeTemplate);
     }
 
     @Override
@@ -44,7 +46,10 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Override
     public void deleteAll(Serializable[] ids) {
-
+        Example example = new Example(TypeTemplate.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andIn("id", Arrays.asList(ids));
+        typeTemplateMapper.deleteByPrimaryKey(example);
     }
 
     @Override
