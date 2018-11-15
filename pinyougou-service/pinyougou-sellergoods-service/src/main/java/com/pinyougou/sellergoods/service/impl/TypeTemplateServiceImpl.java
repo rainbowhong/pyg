@@ -1,11 +1,14 @@
 package com.pinyougou.sellergoods.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.ISelect;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.comm.pojo.PageResult;
+import com.pinyougou.mapper.SpecificationOptionMapper;
 import com.pinyougou.mapper.TypeTemplateMapper;
+import com.pinyougou.pojo.SpecificationOption;
 import com.pinyougou.pojo.TypeTemplate;
 import com.pinyougou.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: rainbow
@@ -28,6 +32,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Autowired
     private TypeTemplateMapper typeTemplateMapper;
+
+    @Autowired
+    private SpecificationOptionMapper specificationOptionMapper;
 
     @Override
     public void save(TypeTemplate typeTemplate) {
@@ -54,7 +61,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Override
     public TypeTemplate findOne(Serializable id) {
-        return null;
+        return typeTemplateMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -73,6 +80,27 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
             });
             return new PageResult(pageInfo.getTotal(), pageInfo.getList());
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //根据模板id查询规格名称和品牌名称
+    @Override
+    public List<Map> showSpecification(Long id) {
+        try {
+            TypeTemplate typeTemplate = findOne(id);
+            String specIds = typeTemplate.getSpecIds();
+            List<Map> specList = JSON.parseArray(specIds, Map.class);
+            for (Map map : specList) {
+                SpecificationOption specificationOption = new SpecificationOption();
+                specificationOption.setSpecId(Long.valueOf(map.get("id").toString()));
+                List<SpecificationOption> specificationOptions = specificationOptionMapper.select(specificationOption);
+                map.put("options", specificationOptions);
+            }
+            return specList;
+
+        } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
     }

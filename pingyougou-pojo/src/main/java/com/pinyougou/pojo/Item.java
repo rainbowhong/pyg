@@ -1,36 +1,90 @@
 package com.pinyougou.pojo;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * Item 实体类
  * @date 2018-10-30 20:09:53
  * @version 1.0
  */
+@Table(name = "tb_item")
 public class Item implements java.io.Serializable{
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name="title")
 	private String title;
+	@Column(name="sell_point")
 	private String sellPoint;
-	private String price;
+	@Column(name="price")
+	private BigDecimal price;
+	@Column(name="stock_count")
 	private Integer stockCount;
+	@Column(name="num")
 	private Integer num;
+	@Column(name="barcode")
 	private String barcode;
+	@Column(name="image")
 	private String image;
+	@Column(name="categoryid")
 	private Long categoryid;
+	@Column(name="status")
 	private String status;
-	private java.util.Date createTime;
-	private java.util.Date updateTime;
+	@Column(name="create_time")
+	private Date createTime;
+	@Column(name="update_time")
+	private Date updateTime;
+	@Column(name="item_sn")
 	private String itemSn;
-	private String costPirce;
-	private String marketPrice;
+	@Column(name="cost_pirce")
+	private BigDecimal costPirce;
+	@Column(name="market_price")
+	private BigDecimal marketPrice;
+	@Column(name="is_default")
 	private String isDefault;
+	@Column(name="goods_id")
 	private Long goodsId;
+	@Column(name="seller_id")
 	private String sellerId;
+	@Column(name="cart_thumbnail")
 	private String cartThumbnail;
+	@Column(name="category")
 	private String category;
+	@Column(name="brand")
 	private String brand;
+	@Column(name="spec")
 	private String spec;
+	@Column(name="seller")
 	private String seller;
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public BigDecimal getCostPirce() {
+		return costPirce;
+	}
+
+	public void setCostPirce(BigDecimal costPirce) {
+		this.costPirce = costPirce;
+	}
+
+	public BigDecimal getMarketPrice() {
+		return marketPrice;
+	}
+
+	public void setMarketPrice(BigDecimal marketPrice) {
+		this.marketPrice = marketPrice;
+	}
 
 	/** setter and getter method */
 	public void setId(Long id){
@@ -51,12 +105,7 @@ public class Item implements java.io.Serializable{
 	public String getSellPoint(){
 		return this.sellPoint;
 	}
-	public void setPrice(String price){
-		this.price = price;
-	}
-	public String getPrice(){
-		return this.price;
-	}
+
 	public void setStockCount(Integer stockCount){
 		this.stockCount = stockCount;
 	}
@@ -111,18 +160,7 @@ public class Item implements java.io.Serializable{
 	public String getItemSn(){
 		return this.itemSn;
 	}
-	public void setCostPirce(String costPirce){
-		this.costPirce = costPirce;
-	}
-	public String getCostPirce(){
-		return this.costPirce;
-	}
-	public void setMarketPrice(String marketPrice){
-		this.marketPrice = marketPrice;
-	}
-	public String getMarketPrice(){
-		return this.marketPrice;
-	}
+
 	public void setIsDefault(String isDefault){
 		this.isDefault = isDefault;
 	}

@@ -1,5 +1,6 @@
 package com.pinyougou.service;
 
+import com.pinyougou.comm.pojo.PageResult;
 import com.pinyougou.pojo.Goods;
 import java.util.List;
 import java.io.Serializable;
@@ -29,6 +30,12 @@ public interface GoodsService {
 	List<Goods> findAll();
 
 	/** 多条件分页查询 */
-	List<Goods> findByPage(Goods goods, int page, int rows);
+	PageResult findByPage(Goods goods, int page, int rows);
 
+
+	//审核商品
+	void updateStatus(Long[] ids, String status);
+
+	//商品上下架
+    void updateMarketable(String status, Long[] ids);
 }
