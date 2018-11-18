@@ -19,6 +19,8 @@
         <module>pinyougou-manager-web</module>
         <module>pinyougou-shop-web</module>
         <module>pinyougou-portal-web</module>
+        <module>pinyougou-search-web</module>
+        <module>pinyougou-item-web</module>
     </modules>
     <properties>
         <!-- tomcat 端口号 -->
