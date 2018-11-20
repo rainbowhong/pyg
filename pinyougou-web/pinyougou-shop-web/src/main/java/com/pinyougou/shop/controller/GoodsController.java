@@ -4,10 +4,17 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.comm.pojo.PageResult;
 import com.pinyougou.pojo.Goods;
 import com.pinyougou.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -22,6 +29,17 @@ public class GoodsController {
 
     @Reference(timeout = 10000)
     private GoodsService goodsService;
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    @Autowired
+    private Destination solrQueue;
+    @Autowired
+    private Destination solrDeleteQueue;
+    @Autowired
+    private Destination pageTopic;
+    @Autowired
+    private Destination pageDeleteTopic;
+
 
     @PostMapping("/save")
     public boolean save(@RequestBody Goods goods) {
@@ -54,9 +72,46 @@ public class GoodsController {
 
     //商品上下架
     @GetMapping("/updateMarketable")
-    public boolean updateMarketable(String status,Long[] ids) {
+    public boolean updateMarketable(String status, Long[] ids) {
         try {
-            goodsService.updateMarketable(status,ids);
+            goodsService.updateMarketable(status, ids);
+            // 判断商品上下架状态
+            if ("1".equals(status)) {
+                // 发送消息，生成商品索引
+                jmsTemplate.send(solrQueue, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        return session.createObjectMessage(ids);
+                    }
+                });
+
+                /** 发送消息，生成静态网页 */
+                for (Long goodsId : ids) {
+                    jmsTemplate.send(pageTopic, new MessageCreator() {
+                        @Override
+                        public Message createMessage(Session session) throws JMSException {
+                            return session.createTextMessage(goodsId.toString());
+                        }
+                    });
+                }
+            } else {
+                // 表示商品下架
+                jmsTemplate.send(solrDeleteQueue, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        return session.createObjectMessage(ids);
+                    }
+                });
+
+
+                /** 发送消息，删除静态网页 */
+                jmsTemplate.send(pageDeleteTopic, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        return session.createObjectMessage(ids);
+                    }
+                });
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();

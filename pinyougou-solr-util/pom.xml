@@ -10,14 +10,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pinyougou-solr-util</artifactId>
+    <packaging>jar</packaging>
+    <name>pinyougou-solr-util</name>
 
 
-
-   <dependencies>
-       <dependency>
-           <groupId>com.pinyougou</groupId>
-           <artifactId>pingyougou-mapper</artifactId>
-           <version>${project.version}</version>
-       </dependency>
-   </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.pinyougou</groupId>
+            <artifactId>pingyougou-mapper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--JSON处理工具包-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+    </dependencies>
 </project>

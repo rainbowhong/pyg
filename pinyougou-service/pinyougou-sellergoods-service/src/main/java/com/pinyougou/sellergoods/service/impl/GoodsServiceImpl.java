@@ -8,16 +8,16 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.comm.pojo.PageResult;
 import com.pinyougou.mapper.*;
 import com.pinyougou.pojo.Goods;
+import com.pinyougou.pojo.GoodsDesc;
 import com.pinyougou.pojo.Item;
 import com.pinyougou.pojo.ItemCat;
 import com.pinyougou.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author: rainbow
@@ -139,7 +139,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void deleteAll(Serializable[] ids) {
         try {
-            goodsMapper.updateDeleteStatus(ids,"1");
+            goodsMapper.updateDeleteStatus(ids, "1");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,7 +186,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void updateStatus(Long[] ids, String status) {
         try {
-            goodsMapper.updateStatus(ids,status);
+            goodsMapper.updateStatus(ids, status);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -197,9 +197,66 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void updateMarketable(String status, Long[] ids) {
         try {
-            goodsMapper.updateMarketable(status,ids);
+            goodsMapper.updateMarketable(status, ids);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 获取商品信息
+     */
+    @Override
+    public Map<String, Object> getGoods(Long goodsId) {
+
+        try {
+            /** 定义数据模型 */
+            Map<String, Object> dataModel = new HashMap<>();
+            /** 加载商品SPU数据 */
+            Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+            dataModel.put("goods", goods);
+            /** 加载商品描述数据 */
+            GoodsDesc goodsDesc = goodsDescMapper.selectByPrimaryKey(goodsId);
+            dataModel.put("goodsDesc", goodsDesc);
+            /** 商品分类 */
+            if (goods != null && goods.getCategory3Id() != null) {
+                String itemCat1 = itemCatMapper.selectByPrimaryKey(goods.getCategory1Id()).getName();
+                String itemCat2 = itemCatMapper.selectByPrimaryKey(goods.getCategory2Id()).getName();
+                String itemCat3 = itemCatMapper.selectByPrimaryKey(goods.getCategory3Id()).getName();
+                dataModel.put("itemCat1", itemCat1);
+                dataModel.put("itemCat2", itemCat2);
+                dataModel.put("itemCat3", itemCat3);
+            }
+
+            /** 查询SKU数据 */
+            Example example = new Example(Item.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("status", "1");
+            criteria.andEqualTo("goodsId", goodsId);
+            example.orderBy("isDefault").desc();
+            List<Item> itemList = itemMapper.selectByExample(example);
+            dataModel.put("itemList", JSON.toJSONString(itemList));
+
+            return dataModel;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    /** 查询上架的SKU商品数据 */
+    @Override
+    public List<Item> findItemByGoodsId(Long[] ids) {
+
+        try {
+            Example example = new Example(Item.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andIn("goodsId", Arrays.asList(ids));
+            return itemMapper.selectByExample(example);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
