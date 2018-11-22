@@ -14,7 +14,7 @@
     <!-- 配置哪些请求URL需要拦截 -->
     <security:http>
         <!-- 配置剩余的请求地址都需要ROLE_ADMIN角色才可以访问 -->
-        <security:intercept-url pattern="/**" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
         <!-- 配置开启表单登录 -->
         <security:form-login
                 login-page="/login.html"

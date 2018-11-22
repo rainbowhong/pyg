@@ -18,6 +18,8 @@
         <module>pinyougou-content-service</module>
         <module>pinyougou-search-service</module>
         <module>pinyougou-sms-service</module>
+        <module>pinyougou-user-service</module>
+        <module>pinyougou-cart-service</module>
     </modules>
     <properties>
         <!-- tomcat 端口号 -->
