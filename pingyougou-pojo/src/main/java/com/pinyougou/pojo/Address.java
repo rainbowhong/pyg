@@ -1,24 +1,41 @@
 package com.pinyougou.pojo;
 
+import javax.persistence.*;
+
 /**
  * Address 实体类
  * @date 2018-10-30 20:09:52
  * @version 1.0
  */
+@Table(name = "tb_address")
 public class Address implements java.io.Serializable{
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+	@Column(name = "user_id")
 	private String userId;
+	@Column(name = "province_id")
 	private String provinceId;
+	@Column(name = "city_id")
 	private String cityId;
+	@Column(name = "town_id")
 	private String townId;
+	@Column(name = "mobile")
 	private String mobile;
+	@Column(name="address")
 	private String address;
+	@Column(name = "contact")
 	private String contact;
+	@Column(name="is_default")
 	private String isDefault;
+	@Column(name = "notes")
 	private String notes;
+	@Column(name = "create_date")
 	private java.util.Date createDate;
+	@Column(name="alias")
 	private String alias;
 
 	/** setter and getter method */

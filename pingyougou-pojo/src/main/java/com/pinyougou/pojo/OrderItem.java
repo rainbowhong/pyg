@@ -1,22 +1,38 @@
 package com.pinyougou.pojo;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+
 /**
  * OrderItem 实体类
  * @date 2018-10-30 20:09:53
  * @version 1.0
  */
+@Table(name = "tb_order_item")
 public class OrderItem implements java.io.Serializable{
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
+	@Column(name="item_id")
 	private Long itemId;
+	@Column(name="goods_id")
 	private Long goodsId;
+	@Column(name="order_id")
 	private Long orderId;
+	@Column(name="title")
 	private String title;
-	private String price;
+	@Column(name="price")
+	private BigDecimal price;
+	@Column(name="num")
 	private Integer num;
-	private String totalFee;
+	@Column(name="total_fee")
+	private BigDecimal totalFee;
+	@Column(name="pic_path")
 	private String picPath;
+	@Column(name="seller_id")
 	private String sellerId;
 
 	/** setter and getter method */
@@ -50,24 +66,26 @@ public class OrderItem implements java.io.Serializable{
 	public String getTitle(){
 		return this.title;
 	}
-	public void setPrice(String price){
-		this.price = price;
-	}
-	public String getPrice(){
-		return this.price;
-	}
 	public void setNum(Integer num){
 		this.num = num;
 	}
 	public Integer getNum(){
 		return this.num;
 	}
-	public void setTotalFee(String totalFee){
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	public BigDecimal getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(BigDecimal totalFee) {
 		this.totalFee = totalFee;
 	}
-	public String getTotalFee(){
-		return this.totalFee;
-	}
+
 	public void setPicPath(String picPath){
 		this.picPath = picPath;
 	}
